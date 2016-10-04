@@ -1,5 +1,6 @@
 # cf-parser
-Codeforces contest parser
+Inspiration: https://github.com/lovrop/codeforces-scraper
+
 
 ```
 $ ./main -help
