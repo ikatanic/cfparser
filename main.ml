@@ -22,6 +22,7 @@ let get_problems contest_id =
   |> List.map ~f:(fun group -> Re.Group.get group 1) 
   |> List.dedup
 
+
 let get_samples contest_id problem_id =
   let problem_uri =
     sprintf "http://codeforces.com/contest/%s/problem/%s" contest_id problem_id
@@ -105,7 +106,7 @@ let main contest_id dir temp () =
   get_problems contest_id
   >>= function
   | [] ->
-    printf "No problems found!!" |> return
+    printf "No problems found!!\n" |> return
   | problems ->
     printf "Found %d problems.\n%!" (List.length problems);
     let dir = Option.value dir ~default:contest_id in
