@@ -1,10 +1,22 @@
 # cf-parser
 Inspiration: https://github.com/lovrop/codeforces-scraper.
 
-Creates directory for each problem in given contest. 
+Creates directory for each problem in given contest.
 Parses problem statements and extracts sample inputs/outputs which are then written to files in problem directories.
 Optionally, creates source files for each problem and fills them with given code template.
 
+## Building
+1. Install OCaml compiler and OPAM (package manager).
+2. Install this project's dependencies:
+```
+$ opam install core cohttp-async
+```
+3. Build the project:
+```
+$ make
+```
+
+## Usage
 ```
 $ ./main -help
 Codeforces contest parser
