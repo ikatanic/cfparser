@@ -1,8 +1,6 @@
-open Core.Std
-open Async.Std
-
+open Core
+open Async
 open Cohttp_async
-    
 
 let get_problems contest_id =
   let contest_uri =
@@ -13,14 +11,14 @@ let get_problems contest_id =
   >>= fun (_resp, body) ->
   Body.to_string body
   >>| fun body ->
-  let regex = 
+  let regex =
     sprintf "\"/contest/%s/problem/([A-Z0-9]*)\"" contest_id
-    |> Re_posix.re
+    |> Re.Posix.re
     |> Re.compile
   in
   Re.all regex body
-  |> List.map ~f:(fun group -> Re.Group.get group 1) 
-  |> List.dedup
+  |> List.map ~f:(fun group -> Re.Group.get group 1)
+  |> List.dedup_and_sort ~compare: String.compare
 
 
 let get_samples contest_id problem_id =
@@ -40,13 +38,13 @@ let get_samples contest_id problem_id =
     in
     let regex =
       sprintf "<div class=\"%s\"><div class=\"title\">%s</div><pre>(.*)</pre></div>" div_class div_title
-      |> Re_posix.re
+      |> Re.Posix.re
       |> Re.shortest
       |> Re.compile
     in
     Re.all regex body
     |> List.map ~f:(fun group -> Re.Group.get group 1)
-    |> List.map ~f:(Re.replace_string (Re_posix.re "<br */>" |> Re.compile) ~by:"\n")
+    |> List.map ~f:(Re.replace_string (Re.Posix.re "<br */>" |> Re.compile) ~by:"\n")
   in
   let inputs = extract `Input in
   let outputs = extract `Output in
@@ -70,7 +68,7 @@ let copy_temp_file temp problem_dir problem_id =
         >>= fun contents ->
         Writer.save dst ~contents
       )
-    
+
 let handle_problem contest_id dir temp problem_id =
   let problem_dir = dir ^/ problem_id in
   mkdir problem_dir
@@ -102,7 +100,7 @@ let main contest_id dir temp () =
         printf "Template %s does not exist.\n%!" temp;
         None
     )
-  >>= fun temp ->     
+  >>= fun temp ->
   get_problems contest_id
   >>= function
   | [] ->
@@ -113,7 +111,7 @@ let main contest_id dir temp () =
     mkdir dir
     >>= fun () ->
     Deferred.List.iter problems ~how:`Parallel ~f:(handle_problem contest_id dir temp)
-    
+
 let () =
   let main_spec =
     let open Command.Spec in
@@ -123,7 +121,7 @@ let () =
     +> flag "-temp" (optional string) ~doc:"filename code template to copy for each problem."
   in
   let main_cmd =
-    Command.async
+    Command.async_spec
       ~summary:"Codeforces contest parser"
       main_spec
       main
