@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name cfparser)
+  (libraries (core async cohttp-async))
+ (synopsis "Codeforces contest parser"))
+)

@@ -112,7 +112,7 @@ let main contest_id dir temp () =
     >>= fun () ->
     Deferred.List.iter problems ~how:`Parallel ~f:(handle_problem contest_id dir temp)
 
-let () =
+let main () =
   let main_spec =
     let open Command.Spec in
     empty

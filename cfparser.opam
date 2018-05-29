@@ -1,0 +1,17 @@
+opam-version: "1.2"
+name: "cfparser"
+version: "1.0"
+maintainer: "Ivan Katanic <ivan.katanic@gmail.com>"
+authors: "Ivan Katanic <ivan.katanic@gmail.com>"
+homepage: "https://github.com/ikatanic/cfparser"
+bug-reports: "https://github.com/ikatanic/cfparser/issues"
+license: "MIT"
+dev-repo: "https://github.com/ikatanic/cfparser"
+build: [
+  ["jbuilder" "build" "-p" name]
+]
+depends: [
+  "core"
+  "async"
+  "cohttp-async"
+]
