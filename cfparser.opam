@@ -8,10 +8,12 @@ bug-reports: "https://github.com/ikatanic/cfparser/issues"
 license: "MIT"
 dev-repo: "https://github.com/ikatanic/cfparser"
 build: [
-  ["jbuilder" "build" "-p" name]
+  ["jbuilder" "subst" "-p" name] {pinned}
+  ["jbuilder" "build" "-p" name "-j" jobs]
 ]
 depends: [
   "core"
   "async"
   "cohttp-async"
+  "jbuilder" {build}
 ]

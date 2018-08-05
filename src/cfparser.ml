@@ -20,7 +20,6 @@ let get_problems contest_id =
   |> List.map ~f:(fun group -> Re.Group.get group 1)
   |> List.dedup_and_sort ~compare: String.compare
 
-
 let get_samples contest_id problem_id =
   let problem_uri =
     sprintf "http://codeforces.com/contest/%s/problem/%s" contest_id problem_id
