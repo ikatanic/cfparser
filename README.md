@@ -1,27 +1,49 @@
 # cf-parser
-Inspiration: https://github.com/lovrop/codeforces-scraper.
+This is a simple tool used to scrape contest data from codeforces.com.
 
-Creates directory for each problem in given contest.
-Parses problem statements and extracts sample inputs/outputs which are then written to files in problem directories.
-Optionally, creates source files for each problem and fills them with given code template.
+Given a contest id, it:
+- creates a directory for each problem
+- writes sample inputs/outputs to files
+- creates a solution source files from the given template (optional)
 
-## Building
-1. Install OCaml compiler and OPAM (package manager).
-2. Install this project's dependencies:
+## Example
+Running
 ```
-$ opam install core cohttp-async
+$ cfparser 901 -temp template.cpp
 ```
-3. Build the project:
+results in the following file structure:
+
 ```
-$ make
+$ ls 901/*
+901/A:
+A.cpp  in1  in2  out1  out2
+
+901/B:
+B.cpp  in1  in2  out1  out2
+
+901/C:
+C.cpp  in1  in2  out1  out2
+
+901/D:
+D.cpp  in1  in2  in3  in4  out1  out2  out3  out4
+
+901/E:
+E.cpp  in1  in2  in3  out1  out2  out3
 ```
 
-## Usage
+
+## Installing
+Easiest way to install is through OPAM:
 ```
-$ ./main -help
+$ opam pin add cfparser git@github.com:ikatanic/cfparser.git
+```
+
+## Usage help
+```
+$ cfparser -help
 Codeforces contest parser
 
-  main CONTEST_ID
+  cfparser CONTEST_ID
 
 === flags ===
 
@@ -31,5 +53,4 @@ Codeforces contest parser
   [-version]        print the version of this build and exit
   [-help]           print this help text and exit
                     (alias: -?)
-
 ```
