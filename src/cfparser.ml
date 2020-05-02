@@ -18,7 +18,7 @@ let get_problems contest_id =
   in
   Re.all regex body
   |> List.map ~f:(fun group -> Re.Group.get group 1)
-  |> List.dedup_and_sort ~compare: String.compare
+  |> List.dedup_and_sort ~compare: String.compare 
 
 let get_samples contest_id problem_id =
   let problem_uri =
@@ -36,7 +36,7 @@ let get_samples contest_id problem_id =
       | `Output -> "output", "Output"
     in
     let regex =
-      sprintf "<div class=\"%s\"><div class=\"title\">%s</div><pre>(.*)</pre></div>" div_class div_title
+      sprintf "<div class=\"%s\"> *<div class=\"title\">%s</div> *<pre>(.*)</pre></div>" div_class div_title
       |> Re.Posix.re
       |> Re.shortest
       |> Re.compile
@@ -44,6 +44,7 @@ let get_samples contest_id problem_id =
     Re.all regex body
     |> List.map ~f:(fun group -> Re.Group.get group 1)
     |> List.map ~f:(Re.replace_string (Re.Posix.re "<br */>" |> Re.compile) ~by:"\n")
+    |> List.map ~f:(Re.replace_string (Re.Posix.re "^\n*" |> Re.compile) ~by: "")
   in
   let inputs = extract `Input in
   let outputs = extract `Output in
